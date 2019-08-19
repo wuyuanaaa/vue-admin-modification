@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import AvueRouter from './avue-router'
 
 /* Router Modules */
 import componentsRouter from './modules/components'
