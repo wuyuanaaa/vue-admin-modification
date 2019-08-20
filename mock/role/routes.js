@@ -484,20 +484,6 @@ export const asyncRoutes = [
   },
 
   {
-    path: '/clipboard',
-    component: 'layout/Layout',
-    redirect: 'noRedirect',
-    children: [
-      {
-        path: 'index',
-        component: 'views/clipboard/index',
-        name: 'ClipboardDemo',
-        meta: { title: 'Clipboard Demo', icon: 'clipboard' }
-      }
-    ]
-  },
-
-  {
     path: '/i18n',
     component: 'layout/Layout',
     children: [

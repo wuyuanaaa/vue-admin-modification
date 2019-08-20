@@ -12,8 +12,6 @@
 
         <error-log class="errLog-container right-menu-item hover-effect" />
 
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
         <el-tooltip content="Global Size" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip> -->
@@ -52,8 +50,6 @@ import { mapGetters } from 'vuex'
 import Logo from '@/components/Logo'
 import NavMenu from './NavMenu'
 /* import ErrorLog from '@/components/ErrorLog'
-import Screenfull from '@/components/Screenfull'
-import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch' */
 
 export default {
@@ -61,8 +57,6 @@ export default {
     Logo,
     NavMenu
     /* ErrorLog,
-    Screenfull,
-    SizeSelect,
     Search */
   },
   computed: {

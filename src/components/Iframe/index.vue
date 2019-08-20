@@ -1,19 +1,19 @@
 <template>
   <div>
-    <basic-container>
-      <iframe
-        v-if="$route.query.src"
-        ref="iframe"
-        :src="$route.query.src"
-        class="iframe"
-      />
-      <iframe
-        v-else
-        ref="iframe"
-        :src="urlPath"
-        class="iframe"
-      />
-    </basic-container>
+    <!-- <basic-container> -->
+    <iframe
+      v-if="$route.query.src"
+      ref="iframe"
+      :src="$route.query.src"
+      class="iframe"
+    />
+    <iframe
+      v-else
+      ref="iframe"
+      :src="urlPath"
+      class="iframe"
+    />
+    <!-- </basic-container> -->
   </div>
 </template>
 
@@ -23,7 +23,13 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 export default {
   name: 'AvueIframe',
-  props: ['routerPath'],
+  // props: ['routerPath'],
+  props: {
+    routerPath: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       urlPath: this.getUrlPath() // iframe src 路径
@@ -43,6 +49,7 @@ export default {
   },
   created() {
     NProgress.configure({ showSpinner: false })
+    console.log()
   },
   mounted() {
     this.load()
@@ -67,12 +74,12 @@ export default {
     load() {
       this.show()
       var flag = true // URL是否包含问号
-      if (this.$route.query.src.indexOf('?') == -1) {
+      if (this.$route.query.src.indexOf('?') === -1) {
         flag = false
       }
       var list = []
       for (var key in this.$route.query) {
-        if (key != 'src' && key != 'name') {
+        if (key !== 'src' && key !== 'name') {
           list.push(`${key}= this.$route.query[key]`)
         }
       }
@@ -90,7 +97,7 @@ export default {
       let time = 5
       const timeFunc = setInterval(() => {
         time--
-        if (time == 0) {
+        if (time === 0) {
           this.hide()
           clearInterval(timeFunc)
         }
