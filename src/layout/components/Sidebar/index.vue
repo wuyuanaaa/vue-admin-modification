@@ -12,7 +12,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <menu-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
+        <menu-item v-for="route in side_routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -28,7 +28,7 @@ export default {
   components: { MenuItem, Logo },
   computed: {
     ...mapGetters([
-      'permission_routes',
+      'side_routes',
       'sidebar'
     ]),
     activeMenu() {

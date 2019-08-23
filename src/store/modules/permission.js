@@ -13,6 +13,10 @@ function hasPermission(roles, route) {
   }
 }
 
+function filterRoutesType(type) {
+  return (route) => route.type === type
+}
+
 /**
  * Filter asynchronous routing tables by recursion
  * @param routes asyncRoutes
@@ -36,13 +40,25 @@ export function filterAsyncRoutes(routes, roles) {
 
 const state = {
   routes: [],
-  addRoutes: []
+  addRoutes: [],
+  navRoutes: [],
+  sideRoutes: [],
+  menuRoutes: []
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
+  },
+  SET_NAV_ROUTES: (state) => {
+    state.navRoutes = state.routes.filter(filterRoutesType('nav'))
+  },
+  SET_SIDE_ROUTES: (state) => {
+    state.sideRoutes = state.routes.filter(filterRoutesType('side'))
+  },
+  SET_MENU_ROUTES: (state) => {
+    state.menuRoutes = state.routes.filter(filterRoutesType('menu'))
   }
 }
 
@@ -56,6 +72,9 @@ const actions = {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
       }
       commit('SET_ROUTES', accessedRoutes)
+      commit('SET_NAV_ROUTES')
+      commit('SET_SIDE_ROUTES')
+      commit('SET_MENU_ROUTES')
       resolve(accessedRoutes)
     })
   }

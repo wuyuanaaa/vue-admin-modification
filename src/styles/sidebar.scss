@@ -89,12 +89,12 @@
   }
 
   .hideSidebar {
-    .sidebar-container {
+    /* .sidebar-container {
       width: 54px !important;
-    }
+    } */
 
     .main-container {
-      margin-left: 54px;
+      margin-left: 0;
     }
 
     .el-menu--collapse {

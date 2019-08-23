@@ -8,7 +8,7 @@
       text-color="#fff"
       active-text-color="#ffd04b"
     >
-      <menu-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
+      <menu-item v-for="route in nav_routes" :key="route.path" :item="route" :base-path="route.path" />
     </el-menu>
   </div>
 </template>
@@ -26,6 +26,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'nav_routes',
       'permission_routes'
     ]),
     activeMenu() {

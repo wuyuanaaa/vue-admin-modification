@@ -7,7 +7,7 @@
     </div>
 
     <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <sidebar class="sidebar-container" />
+      <sidebar v-if="sidebar.opened" class="sidebar-container" />
       <!-- 主体部分 -->
       <app-main />
       <right-panel v-if="showSettings">
@@ -50,7 +50,8 @@ export default {
       device: state => state.app.device,
       showSettings: state => state.settings.showSettings,
       needTagsView: state => state.settings.tagsView,
-      fixedHeader: state => state.settings.fixedHeader
+      fixedHeader: state => state.settings.fixedHeader,
+      side_routes: state => state.permission.sideRoutes
     }),
     classObj() {
       return {
@@ -60,6 +61,9 @@ export default {
         mobile: this.device === 'mobile'
       }
     }
+  },
+  mounted() {
+    this.side_routes.length && this.$store.dispatch('app/openSideBar', { withoutAnimation: false })
   },
   methods: {
     handleClickOutside() {
