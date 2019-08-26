@@ -7,16 +7,7 @@
     </div>
 
     <div class="right-menu">
-      <template v-if="device!=='mobile'">
-        <!-- <search id="header-search" class="right-menu-item" />
-
-        <error-log class="errLog-container right-menu-item hover-effect" />
-
-        <el-tooltip content="Global Size" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip> -->
-        <nav-menu class="navMenu-container" />
-      </template>
+      <nav-menu class="navMenu-container" />
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
@@ -49,15 +40,11 @@
 import { mapGetters } from 'vuex'
 import Logo from '@/components/Logo'
 import NavMenu from './NavMenu'
-/* import ErrorLog from '@/components/ErrorLog'
-import Search from '@/components/HeaderSearch' */
 
 export default {
   components: {
     Logo,
     NavMenu
-    /* ErrorLog,
-    Search */
   },
   computed: {
     ...mapGetters([

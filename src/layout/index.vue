@@ -1,6 +1,5 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <!-- <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
     <div :class="{'fixed-header':fixedHeader}">
       <navbar />
       <tags-view v-if="needTagsView" />
@@ -10,25 +9,20 @@
       <sidebar v-if="sidebar.opened" class="sidebar-container" />
       <!-- 主体部分 -->
       <app-main />
-      <right-panel v-if="showSettings">
-        <settings />
-      </right-panel>
     </div>
     <service-map />
   </div>
 </template>
 
 <script>
-import RightPanel from '@/components/RightPanel'
 import {
   AppMain,
   Navbar,
-  Settings,
   Sidebar,
   TagsView,
   ServiceMap
 } from './components'
-import ResizeMixin from './mixin/ResizeHandler'
+// import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
 
 export default {
@@ -36,13 +30,11 @@ export default {
   components: {
     AppMain,
     Navbar,
-    RightPanel,
-    Settings,
     Sidebar,
     TagsView,
     ServiceMap
   },
-  mixins: [ResizeMixin],
+  // mixins: [ResizeMixin],
   computed: {
     ...mapState({
       sidebar: state => state.app.sidebar,
@@ -64,11 +56,6 @@ export default {
   },
   mounted() {
     this.side_routes.length && this.$store.dispatch('app/openSideBar', { withoutAnimation: false })
-  },
-  methods: {
-    handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
-    }
   }
 }
 </script>
