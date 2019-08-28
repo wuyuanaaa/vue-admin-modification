@@ -1,7 +1,13 @@
 <template>
   <div class="map-container" :class="{mapOpen: isMapOpen}">
-    map1111
-    <div class="a">{{ a }}</div>
+    <div class="container-top">
+      top
+    </div>
+
+    <div class="container-center">
+      center
+    </div>
+
   </div>
 </template>
 
@@ -36,9 +42,14 @@ export default {
   &.mapOpen {
     transform: translateY(0);
   }
-  .a {
-    width: 200px;
-    height: 20px;
+
+  .container-top {
+    height: 80px;
+    background: rgb(221, 75, 75);
+  }
+
+  .container-center {
+    background-color: rgb(47, 209, 174);
   }
 }
 </style>

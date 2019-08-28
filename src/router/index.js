@@ -35,8 +35,8 @@ import nestedRouter from './modules/nested'
 
 /**
  * 固定路由
- * a base page that does not have permission requirements
- * all roles can be accessed
+ * 此部分放无需做权限的路由
+ * 所有角色都可以访问
  */
 export const constantRoutes = [
   {
@@ -85,7 +85,6 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    type: 'nav',
     children: [
       {
         path: 'dashboard',
@@ -94,32 +93,169 @@ export const constantRoutes = [
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
-  },
-  {
-    // path: '/documentation',
-    path: 'https://www.yuanaaa.top',
-    component: Layout,
-    name: 'yuanaaa',
-    type: 'side',
-    // hidden: true,
-    meta: { title: 'yuanaaa', icon: 'documentation', affix: true, blank: true }
-  },
-  {
-    // path: '/documentation',
-    path: 'https://www.baidu.com',
-    component: Layout,
-    name: 'BaiduIframe',
-    type: 'nav',
-    // hidden: true,
-    meta: { title: 'BaiduIframe', icon: 'documentation', affix: true }
   }
 ]
 
 /**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
+ * 动态路由
+ * 需要根据用户角色动态加载的路由
+ * 注意： roles: ['admin']、 roles: ['visitor'] 和 不传 roles 参数的区别
+ *  roles: ['admin'] 表示只有管理员能看到
+ *  roles: ['visitor'] *表示管理员及游客可见*
+ *  不传 roles 表示不做动态限制，所有角色可见
  */
 export const asyncRoutes = [
+  {
+    path: 'https://www.baidu.com?nav=功能大全',
+    component: Layout,
+    name: '功能大全',
+    type: 'nav',
+    meta: {
+      title: '功能大全',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=对接平台',
+    component: Layout,
+    name: '对接平台',
+    type: 'nav',
+    meta: {
+      title: '对接平台',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=服务管理',
+    component: Layout,
+    name: '服务管理',
+    type: 'nav',
+    meta: {
+      title: '服务管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=用户管理',
+    component: Layout,
+    name: '用户管理',
+    type: 'nav',
+    meta: {
+      title: '用户管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=组织管理',
+    component: Layout,
+    name: '组织管理',
+    type: 'nav',
+    meta: {
+      title: '组织管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=公告管理',
+    component: Layout,
+    name: '公告管理',
+    type: 'nav',
+    meta: {
+      title: '公告管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=功能项管理',
+    component: Layout,
+    name: '功能项管理',
+    type: 'nav',
+    meta: {
+      title: '功能项管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=订单',
+    component: Layout,
+    name: '订单',
+    type: 'nav',
+    meta: {
+      title: '订单',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=公告',
+    component: Layout,
+    name: '公告',
+    type: 'nav',
+    meta: {
+      title: '公告',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?a=1',
+    component: Layout,
+    name: 'admin',
+    type: 'side',
+    // hidden: true,
+    meta: {
+      title: 'admin',
+      icon: 'documentation',
+      affix: true,
+      roles: ['admin']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?a=2',
+    component: Layout,
+    name: 'editor',
+    type: 'side',
+    // hidden: true,
+    meta: {
+      title: 'editor',
+      icon: 'documentation',
+      affix: true,
+      roles: ['editor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?a=3',
+    component: Layout,
+    name: 'visitor',
+    type: 'side',
+    // hidden: true,
+    meta: {
+      title: 'visitor',
+      icon: 'documentation',
+      affix: true,
+      roles: ['visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com',
+    component: Layout,
+    name: 'BaiduIframe',
+    type: 'side',
+    // hidden: true,
+    meta: {
+      title: 'BaiduIframe',
+      icon: 'documentation',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
   {
     path: '/permission',
     component: Layout,
@@ -206,19 +342,6 @@ export const asyncRoutes = [
     ]
   },
 
-  {
-    path: '/error-log',
-    component: Layout,
-    type: 'side',
-    children: [
-      {
-        path: 'log',
-        component: () => import('@/views/error-log/index'),
-        name: 'ErrorLog',
-        meta: { title: 'Error Log', icon: 'bug' }
-      }
-    ]
-  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

@@ -1,4 +1,4 @@
-import router from './router'
+import router, { resetRouter } from './router'
 import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
@@ -73,7 +73,7 @@ router.beforeEach(async(to, from, next) => {
 
   if (hasToken) {
     // determine whether the user has obtained his permission roles through getInfo
-    const hasRoles = store.getters.roles && store.getters.roles.length > 0
+    const hasRoles = store.getters.roles && store.getters.roles.length > 0 && !store.getters.roles.includes('visitor')
 
     if (hasRoles) {
       next()
@@ -83,6 +83,8 @@ router.beforeEach(async(to, from, next) => {
         // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
         const { roles } = await store.dispatch('user/getInfo')
 
+        // 重新获取动态路由前重置路由
+        resetRouter()
         // generate accessible routes map based on roles
         const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 
@@ -102,21 +104,21 @@ router.beforeEach(async(to, from, next) => {
       }
     }
   } else {
-    // determine whether the user has obtained his permission roles through getInfo
+    // 未登录 需要添加 游客角色
     const hasRoles = store.getters.roles && store.getters.roles.length > 0
 
     if (hasRoles) {
       next()
     } else {
       try {
-        // get user info
-        // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-        const roles = ['admin']
+        const roles = ['visitor']
 
         store.dispatch('user/setUnloggedRoles', roles)
         // generate accessible routes map based on roles
         const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 
+        // 重新获取动态路由前重置路由
+        resetRouter()
         // dynamically add accessible routes
         router.addRoutes(accessRoutes)
 

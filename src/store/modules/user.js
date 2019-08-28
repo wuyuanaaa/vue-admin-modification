@@ -1,11 +1,13 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import defaultAvatar from '@/assets/imgs/defaultAvatar_white.png'
 
 const state = {
   token: getToken(),
-  name: '',
-  avatar: '',
+  isLogin: false,
+  name: '未登录',
+  avatar: defaultAvatar,
   introduction: '',
   roles: []
 }
@@ -13,6 +15,10 @@ const state = {
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
+  },
+  SET_LOGOUT: (state) => {
+    state.avatar = defaultAvatar
+    state.name = '未登录'
   },
   SET_INTRODUCTION: (state, introduction) => {
     state.introduction = introduction
@@ -73,13 +79,21 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state }) {
+  logout({ commit, dispatch, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logout(state.token).then(async() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
+        commit('SET_LOGOUT', [])
         removeToken()
         resetRouter()
+
+        // generate accessible routes map based on roles
+        const accessRoutes = await dispatch('permission/generateRoutes', ['visitor'], { root: true })
+
+        // dynamically add accessible routes
+        router.addRoutes(accessRoutes)
+
         resolve()
       }).catch(error => {
         reject(error)
@@ -103,6 +117,7 @@ const actions = {
       const token = role + '-token'
 
       commit('SET_TOKEN', token)
+      commit('SET_LOGIN')
       setToken(token)
 
       const { roles } = await dispatch('getInfo')

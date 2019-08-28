@@ -9,29 +9,18 @@
     <div class="right-menu">
       <nav-menu class="navMenu-container" />
 
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
-        </div>
-        <el-dropdown-menu slot="dropdown">
-          <router-link to="/profile/index">
-            <el-dropdown-item>Profile</el-dropdown-item>
-          </router-link>
-          <router-link to="/">
-            <el-dropdown-item>Dashboard</el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">Log Out</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <div class="userInfo-container" @click="handleUserInfoClick">
+        <img :src="avatar" class="user-avatar">
+        <span class="user-nickname">
+          {{ name }}
+        </span>
+      </div>
+
+      <div v-if="token" class="logout-container" @click="logout">
+        <svg-icon class="logout-icon" icon-class="logout" />
+        <span>退出</span>
+      </div>
+
     </div>
   </div>
 </template>
@@ -49,7 +38,9 @@ export default {
   computed: {
     ...mapGetters([
       'isMapOpen',
+      'token',
       'avatar',
+      'name',
       'device'
     ])
   },
@@ -59,7 +50,17 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    handleUserInfoClick() {
+      if (this.token) {
+        // 前往用户信息页面
+        this.$message({
+          message: '前往用户信息页面'
+        })
+      } else {
+        // 前往登录页面
+        this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      }
     }
   }
 }
@@ -67,9 +68,11 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
+  min-width: 1400px;
   height: 64px;
   overflow: hidden;
   position: relative;
+  font-size: 14px;
   background: #00216d;
   border-bottom: 4px solid #FEA407;
 
@@ -78,7 +81,6 @@ export default {
     padding: 0 20px;
     line-height: 60px;
     font-weight: bold;
-    font-size: 14px;
     color: #fff;
     background: #5193EF;
     cursor: pointer;
@@ -103,6 +105,11 @@ export default {
       outline: none;
     }
 
+    .navMenu-container {
+      float: left;
+      margin-right: 10px;
+    }
+
     .right-menu-nav {
       display: inline-block;
     }
@@ -125,29 +132,34 @@ export default {
       }
     }
 
-    .avatar-container {
-      margin-right: 30px;
-
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
-
-        .user-avatar {
-          cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-        }
-
-        .el-icon-caret-bottom {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
+    .userInfo-container {
+      float: left;
+      margin-right: 20px;
+      cursor: pointer;
+      .user-avatar {
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        vertical-align: middle;
+      }
+      .user-nickname {
+        color: #999;
       }
     }
+
+    .logout-container {
+      margin-right: 20px;
+      float: left;
+      color: #999;
+      cursor: pointer;
+      .logout-icon {
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+      }
+    }
+
   }
 }
 </style>
