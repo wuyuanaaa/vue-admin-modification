@@ -10,8 +10,6 @@
     "build:stage": "vue-cli-service build --mode staging",
     "preview": "node build/index.js --preview",
     "lint": "eslint --ext .js,.vue src",
-    "test:unit": "jest --clearCache && vue-cli-service test:unit",
-    "test:ci": "npm run lint && npm run test:unit",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
     "new": "plop"
   },
@@ -65,7 +63,6 @@
     "autoprefixer": "^9.5.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
-    "babel-jest": "23.6.0",
     "chalk": "2.4.2",
     "chokidar": "2.1.5",
     "connect": "3.6.6",

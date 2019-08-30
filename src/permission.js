@@ -85,6 +85,7 @@ router.beforeEach(async(to, from, next) => {
 
         // 重新获取动态路由前重置路由
         resetRouter()
+
         // generate accessible routes map based on roles
         const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 

@@ -74,14 +74,224 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   {
+    path: 'https://www.baidu.com?nav=功能大全',
+    component: 'layout/Layout',
+    name: '功能大全',
+    type: 'nav',
+    meta: {
+      title: '功能大全',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=对接平台',
+    component: 'layout/Layout',
+    name: '对接平台',
+    type: 'nav',
+    meta: {
+      title: '对接平台',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=服务管理',
+    component: 'layout/Layout',
+    name: '服务管理',
+    type: 'nav',
+    meta: {
+      title: '服务管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=用户管理',
+    component: 'layout/Layout',
+    name: '用户管理',
+    type: 'nav',
+    meta: {
+      title: '用户管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=组织管理',
+    component: 'layout/Layout',
+    name: '组织管理',
+    type: 'nav',
+    meta: {
+      title: '组织管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=公告管理',
+    component: 'layout/Layout',
+    name: '公告管理',
+    type: 'nav',
+    meta: {
+      title: '公告管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=功能项管理',
+    component: 'layout/Layout',
+    name: '功能项管理',
+    type: 'nav',
+    meta: {
+      title: '功能项管理',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=订单',
+    component: 'layout/Layout',
+    name: '订单',
+    type: 'nav',
+    meta: {
+      title: '订单',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?nav=公告',
+    component: 'layout/Layout',
+    name: '公告',
+    type: 'nav',
+    meta: {
+      title: '公告',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?a=1',
+    component: 'layout/Layout',
+    name: 'admin',
+    type: 'side',
+    // hidden: true,
+    meta: {
+      title: 'admin',
+      icon: 'documentation',
+      affix: true,
+      roles: ['admin']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?a=2',
+    component: 'layout/Layout',
+    name: 'editor',
+    type: 'side',
+    // hidden: true,
+    meta: {
+      title: 'editor',
+      icon: 'documentation',
+      affix: true,
+      roles: ['editor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com?a=3',
+    component: 'layout/Layout',
+    name: 'visitor',
+    siteType: 'side',
+    // hidden: true,
+    meta: {
+      title: 'visitor',
+      icon: 'documentation',
+      affix: true,
+      roles: ['visitor']
+    }
+  },
+  {
+    path: 'https://www.baidu.com',
+    component: 'layout/Layout',
+    name: 'BaiduIframe',
+    type: 'side',
+    // hidden: true,
+    meta: {
+      title: 'BaiduIframe',
+      icon: 'documentation',
+      affix: true,
+      roles: ['editor', 'visitor']
+    }
+  },
+  {
+    path: '/permission',
+    component: 'layout/Layout',
+    redirect: '/permission/page',
+    alwaysShow: true, // will always show the root menu
+    type: 'side',
+    name: 'Permission',
+    meta: {
+      title: '用户管理',
+      icon: 'lock',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'page',
+        component: 'views/permission/page',
+        name: 'PagePermission',
+        meta: {
+          title: 'Page Permission',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'directive',
+        component: 'views/permission/directive',
+        name: 'DirectivePermission',
+        meta: {
+          title: 'Directive Permission'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'role',
+        component: 'views/permission/role',
+        name: 'RolePermission',
+        meta: {
+          title: 'Role Permission',
+          roles: ['admin']
+        }
+      }
+    ]
+  },
+
+  {
+    path: '/icon',
+    component: 'layout/Layout',
+    type: 'side',
+    children: [
+      {
+        path: 'index',
+        component: 'views/icons/index',
+        name: 'Icons',
+        meta: { title: 'Icons', icon: 'icon', noCache: true }
+      }
+    ]
+  }
+
+  /*
+  {
     path: '/permission',
     component: 'layout/Layout',
     redirect: '/permission/index',
+    type: 'nav',
     alwaysShow: true,
     meta: {
       title: 'Permission',
       icon: 'lock',
-      roles: ['admin', 'editor']
+      roles: ['admin', 'editor', 'visitor']
     },
     children: [
       {
@@ -112,25 +322,12 @@ export const asyncRoutes = [
       }
     ]
   },
-
-  {
-    path: '/icon',
-    component: 'layout/Layout',
-    children: [
-      {
-        path: 'index',
-        component: 'views/icons/index',
-        name: 'Icons',
-        meta: { title: 'Icons', icon: 'icon', noCache: true }
-      }
-    ]
-  },
-
   {
     path: '/components',
     component: 'layout/Layout',
     redirect: 'noRedirect',
     name: 'ComponentDemo',
+    type: 'side',
     meta: {
       title: 'Components',
       icon: 'component'
@@ -226,6 +423,7 @@ export const asyncRoutes = [
     path: '/charts',
     component: 'layout/Layout',
     redirect: 'noRedirect',
+    type: 'side',
     name: 'Charts',
     meta: {
       title: 'Charts',
@@ -256,6 +454,7 @@ export const asyncRoutes = [
     path: '/nested',
     component: 'layout/Layout',
     redirect: '/nested/menu1/menu1-1',
+    type: 'side',
     name: 'Nested',
     meta: {
       title: 'Nested',
@@ -507,5 +706,5 @@ export const asyncRoutes = [
     ]
   },
 
-  { path: '*', redirect: '/404', hidden: true }
+  { path: '*', redirect: '/404', hidden: true } */
 ]

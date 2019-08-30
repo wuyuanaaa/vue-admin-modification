@@ -11,10 +11,6 @@ export {
 }
   from './Sidebar/index.vue'
 export {
-  default as TagsView
-}
-  from './TagsView/index.vue'
-export {
   default as ServiceMap
 }
   from './ServiceMap/index.vue'

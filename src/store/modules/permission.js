@@ -1,5 +1,6 @@
-import { asyncRoutes, constantRoutes } from '@/router'
-
+import { constantRoutes, lastRoutes } from '@/router'
+import { getRoutes } from '@/api/role'
+import Layout from '@/layout'
 /**
  * Use meta.role to determine if the current user has permission
  * @param roles
@@ -13,8 +14,44 @@ function hasPermission(roles, route) {
   }
 }
 
+/**
+ * 路由分类
+ */
 function filterRoutesType(type) {
   return (route) => route.type === type
+}
+
+/**
+ * 将路由数据转换成 vue-router 路由
+ */
+function addDynamicMenuRoutes(menuList = [], routes = []) {
+  menuList.forEach(function(item, index) {
+    if (item.component === 'Layout') {
+      item.component = Layout
+    } else {
+      item.component = () => import(item.component)
+    }
+    if (item.children && item.children.length > 0) {
+      let mchildren = []
+      mchildren = childrenPro(item.children, mchildren)
+      item.children = mchildren
+    }
+    routes[index] = item
+  })
+  return routes
+}
+function childrenPro(childrenList = [], mychildren = []) {
+  childrenList.forEach(function(item, index) {
+    if (item.component) {
+      item.component = () => import(item.component)
+    }
+    if (item.children && item.children.length > 0) {
+      const mychildrenRoute = []
+      item.children = childrenPro(item.children, mychildrenRoute)
+    }
+    mychildren[index] = item
+  })
+  return mychildren
 }
 
 /**
@@ -39,6 +76,10 @@ export function filterAsyncRoutes(routes, roles) {
 }
 
 const state = {
+  asyncRoutes: {
+    hasDone: false,
+    list: []
+  },
   routes: [],
   addRoutes: [],
   navRoutes: [],
@@ -47,9 +88,13 @@ const state = {
 }
 
 const mutations = {
+  SET_ASYNCROUTES: (state, list) => {
+    state.asyncRoutes.hasDone = true
+    state.asyncRoutes.list = list
+  },
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
+    state.routes = constantRoutes.concat([...routes, ...lastRoutes])
   },
   SET_NAV_ROUTES: (state) => {
     state.navRoutes = state.routes.filter(filterRoutesType('nav'))
@@ -63,9 +108,19 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
-    return new Promise(resolve => {
+  generateRoutes({ commit, state }, roles) {
+    return new Promise(async resolve => {
       let accessedRoutes
+      let asyncRoutes = []
+
+      if (state.asyncRoutes.hasDone) {
+        asyncRoutes = state.asyncRoutes.list
+      } else {
+        const res = await getRoutes()
+        asyncRoutes = addDynamicMenuRoutes(res.data, asyncRoutes)
+        commit('SET_ASYNCROUTES', asyncRoutes)
+      }
+
       if (roles.includes('admin')) {
         accessedRoutes = asyncRoutes || []
       } else {
