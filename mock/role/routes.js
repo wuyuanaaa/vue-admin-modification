@@ -202,7 +202,7 @@ export const asyncRoutes = [
     path: 'https://www.baidu.com?a=3',
     component: 'layout/Layout',
     name: 'visitor',
-    siteType: 'side',
+    type: 'side',
     // hidden: true,
     meta: {
       title: 'visitor',

@@ -15,6 +15,6 @@ const getters = {
   side_routes: state => state.permission.sideRoutes,
   menu_routes: state => state.permission.menuRoutes,
   errorLogs: state => state.errorLog.logs,
-  website: state => state.settings.website
+  unloggedRole: state => state.settings.unloggedRole
 }
 export default getters
