@@ -16,7 +16,8 @@ function hasPermission(roles, route) {
 
 /**
  * 路由分类
- * @param type 路由类型 'nav'/'side'/'menu' 详见 router/index.js
+ * @param {string} type 路由类型 'nav'/'side'/'menu' 详见 router/index.js
+ * @returns {function}
  */
 function filterRoutesType(type) {
   return (route) => route.type === type
@@ -24,7 +25,8 @@ function filterRoutesType(type) {
 
 /**
  * 将路由数据转换成 vue-router 路由
- * @param routesData 路由数据
+ * @param {array} routesData 路由数据
+ * @returns {array}
  */
 function formatRoutes(routesData = []) {
   return routesData.map((item) => {

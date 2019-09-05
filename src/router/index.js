@@ -363,8 +363,17 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
+/**
+ * 将组件字符串路径转换为异步组件
+ * @param {string} component 组件的字符串路径
+ * @returns {promise}
+ */
 export function lazyLoading(component) {
-  return () => import(`@/${component}.vue`)
+  return () => import(`@/${component}.vue`).catch(e => {
+    // 后端传递了一个错误的组件地址
+    console.error(`接收了一个无效的组件地址：'${component}'`)
+    return import('@/views/error-page/404')
+  })
 }
 
 export default router
