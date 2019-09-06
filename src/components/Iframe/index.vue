@@ -43,6 +43,7 @@ export default {
   mounted() {
     this.load()
     this.resize()
+    console.log(this)
   },
   methods: {
     // 加载浏览器窗口变化自适应
