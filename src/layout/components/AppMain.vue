@@ -22,8 +22,8 @@ export default {
 
 <style lang="scss" scoped>
 .app-main {
-  /* 64= navbar  64  */
-  min-height: calc(100vh - 64px);
+  /* 104 = navbar 64 + breadcrumb 40 */
+  min-height: calc(100vh - 104px);
   width: 100%;
   position: relative;
   overflow: hidden;

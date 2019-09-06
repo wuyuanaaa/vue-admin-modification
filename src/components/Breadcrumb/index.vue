@@ -34,6 +34,7 @@ export default {
     getBreadcrumb() {
       // only show routes with meta.title
       let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
+
       const first = matched[0]
 
       if (!this.isDashboard(first)) {
@@ -69,10 +70,12 @@ export default {
 
 <style lang="scss" scoped>
 .app-breadcrumb.el-breadcrumb {
-  display: inline-block;
+  box-sizing: border-box;
   font-size: 14px;
-  line-height: 60px;
-  margin-left: 8px;
+  height: 40px;
+  line-height: 39px;
+  padding-left: 10px;
+  border-bottom: 1px solid #dedede;
 
   .no-redirect {
     color: #97a8be;

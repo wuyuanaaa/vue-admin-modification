@@ -73,12 +73,14 @@ export const constantRoutes = [
   {
     path: '/myiframe',
     component: Layout,
-    redirect: '/myiframe',
     children: [{
       path: ':routerPath',
       name: 'Iframe',
       component: () => import('@/components/Iframe/index'),
-      props: true
+      props: true,
+      meta: {
+        title: 'iframe'
+      }
     }]
   },
   {

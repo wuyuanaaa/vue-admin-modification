@@ -54,6 +54,7 @@ export default {
     // 加载组件
     load() {
       var flag = true // URL是否包含问号
+      this.$route.meta.title = this.$route.query.name
       if (this.$route.query.src.indexOf('?') === -1) {
         flag = false
       }
@@ -78,9 +79,9 @@ export default {
     },
     // iframe窗口初始化
     iframeInit() {
-      // 64 navBar 的高度
+      // 104 navBar 64 + breadcrumb 40 的高度
       const iframe = this.$refs.iframe
-      const clientHeight = document.documentElement.clientHeight - 64
+      const clientHeight = document.documentElement.clientHeight - 104
       iframe.style.height = `${clientHeight}px`
     },
     getUrlPath: function() {
