@@ -43,7 +43,6 @@ export default {
   mounted() {
     this.load()
     this.resize()
-    console.log(this)
   },
   methods: {
     // 加载浏览器窗口变化自适应
@@ -55,7 +54,7 @@ export default {
     // 加载组件
     load() {
       var flag = true // URL是否包含问号
-      this.$route.meta.title = this.$route.query.name
+      // this.$route.meta.title = this.$route.query.name
       if (this.$route.query.src.indexOf('?') === -1) {
         flag = false
       }

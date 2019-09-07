@@ -79,7 +79,7 @@ export const constantRoutes = [
       component: () => import('@/components/Iframe/index'),
       props: true,
       meta: {
-        title: ''
+        title: 'Iframe'
       }
     }]
   },

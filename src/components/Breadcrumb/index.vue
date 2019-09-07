@@ -34,8 +34,11 @@ export default {
     getBreadcrumb() {
       // only show routes with meta.title
       let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
-
       const first = matched[0]
+      // 修改 iframe 子路由 title
+      if (this.isIframe(first)) {
+        first.meta.title = this.$route.query ? this.$route.query.name : 'iframe'
+      }
 
       if (!this.isDashboard(first)) {
         matched = [{ path: '/dashboard', meta: { title: '首页' }}].concat(matched)
@@ -49,6 +52,10 @@ export default {
         return false
       }
       return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
+    },
+    isIframe(route) {
+      const name = route.name
+      return name === 'Iframe'
     },
     pathCompile(path) {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561

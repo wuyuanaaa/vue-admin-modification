@@ -7,15 +7,7 @@
 </template>
 
 <script>
-import { isExternal } from '@/utils/validate'
-
-function objToform(obj) {
-  const result = []
-  Object.keys(obj).forEach(ele => {
-    result.push(`${ele}=${obj[ele]}`)
-  })
-  return result.join('&')
-}
+import { isExternal, objToform } from '@/utils/validate'
 
 export default {
   props: {
