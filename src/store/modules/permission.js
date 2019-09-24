@@ -1,4 +1,4 @@
-import { constantRoutes, lastRoutes } from '@/router'
+import { constantRoutes, lazyLoading } from '@/router'
 import { getRoutes } from '@/api/role'
 import Layout from '@/layout'
 /**
@@ -16,6 +16,8 @@ function hasPermission(roles, route) {
 
 /**
  * 路由分类
+ * @param {string} type 路由类型 'nav'/'side'/'menu' 详见 router/index.js
+ * @returns {function}
  */
 function filterRoutesType(type) {
   return (route) => route.type === type
@@ -23,35 +25,21 @@ function filterRoutesType(type) {
 
 /**
  * 将路由数据转换成 vue-router 路由
+ * @param {array} routesData 路由数据
+ * @returns {array}
  */
-function addDynamicMenuRoutes(menuList = [], routes = []) {
-  menuList.forEach(function(item, index) {
+function formatRoutes(routesData = []) {
+  return routesData.map((item) => {
     if (item.component === 'Layout') {
       item.component = Layout
-    } else {
-      item.component = () => import(item.component)
+    } else if (item.component) {
+      item.component = lazyLoading(item.component)
     }
     if (item.children && item.children.length > 0) {
-      let mchildren = []
-      mchildren = childrenPro(item.children, mchildren)
-      item.children = mchildren
+      item.children = formatRoutes(item.children)
     }
-    routes[index] = item
+    return item
   })
-  return routes
-}
-function childrenPro(childrenList = [], mychildren = []) {
-  childrenList.forEach(function(item, index) {
-    if (item.component) {
-      item.component = () => import(item.component)
-    }
-    if (item.children && item.children.length > 0) {
-      const mychildrenRoute = []
-      item.children = childrenPro(item.children, mychildrenRoute)
-    }
-    mychildren[index] = item
-  })
-  return mychildren
 }
 
 /**
@@ -94,7 +82,7 @@ const mutations = {
   },
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
-    state.routes = constantRoutes.concat([...routes, ...lastRoutes])
+    state.routes = constantRoutes.concat(routes)
   },
   SET_NAV_ROUTES: (state) => {
     state.navRoutes = state.routes.filter(filterRoutesType('nav'))
@@ -117,7 +105,7 @@ const actions = {
         asyncRoutes = state.asyncRoutes.list
       } else {
         const res = await getRoutes()
-        asyncRoutes = addDynamicMenuRoutes(res.data, asyncRoutes)
+        asyncRoutes = formatRoutes(res.data)
         commit('SET_ASYNCROUTES', asyncRoutes)
       }
 
@@ -130,6 +118,7 @@ const actions = {
       commit('SET_NAV_ROUTES')
       commit('SET_SIDE_ROUTES')
       commit('SET_MENU_ROUTES')
+
       resolve(accessedRoutes)
     })
   }

@@ -19,7 +19,7 @@ import nestedRouter from './modules/nested'
  *                               如果没有设置alwaysShow，当item有多个子路径时,
  *                               它将成为嵌套模式，不会显示根菜单
  * redirect: noRedirect          如果设置noRedirect将不会在面包屑中重定向
- * type: 'nav'/'side'/'menu'     设置路由出现的地方（nav: 顶部导航 / side: 左侧导航 / menu: 服务目录）(仅在一级路由配置，必须)
+ * type: 'nav'/'side'/'menu'     设置路由导航出现的地方（nav: 顶部导航 / side: 左侧导航 / menu: 服务目录）(仅在一级路由配置)
  * name:'router-name'            该名称由<keep-alive>使用（必须设置!!!）
  * meta : {
     roles: ['admin','editor']    控制页面角色（可以设置多个角色）
@@ -73,12 +73,14 @@ export const constantRoutes = [
   {
     path: '/myiframe',
     component: Layout,
-    redirect: '/myiframe',
     children: [{
       path: ':routerPath',
       name: 'Iframe',
       component: () => import('@/components/Iframe/index'),
-      props: true
+      props: true,
+      meta: {
+        title: 'Iframe'
+      }
     }]
   },
   {
@@ -340,39 +342,11 @@ export const asyncRoutes = [
         meta: { title: '404', noCache: true }
       }
     ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
 
+// 需要放在路由最后的 404 路由
 export const lastRoutes = [
-  {
-    path: '/error',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'ErrorPages',
-    type: 'side',
-    meta: {
-      title: 'Error Pages',
-      icon: '404'
-    },
-    children: [
-      {
-        path: '401',
-        component: () => import('@/views/error-page/401'),
-        name: 'Page401',
-        meta: { title: '401', noCache: true }
-      },
-      {
-        path: '404',
-        component: () => import('@/views/error-page/404'),
-        name: 'Page404',
-        meta: { title: '404', noCache: true }
-      }
-    ]
-  },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -389,6 +363,19 @@ const router = createRouter()
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
+}
+
+/**
+ * 将组件字符串路径转换为异步组件
+ * @param {string} component 组件的字符串路径
+ * @returns {promise}
+ */
+export function lazyLoading(component) {
+  return () => import(`@/${component}.vue`).catch(e => {
+    // 后端传递了一个错误的组件地址
+    console.error(`接收了一个无效的组件地址：'${component}'`)
+    return import('@/views/error-page/404')
+  })
 }
 
 export default router

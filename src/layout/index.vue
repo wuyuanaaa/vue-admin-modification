@@ -8,7 +8,11 @@
     <div :class="{hasTagsView:needTagsView}" class="main-container">
       <sidebar v-if="sidebar.opened" class="sidebar-container" />
       <!-- 主体部分 -->
-      <app-main />
+      <div class="content-container">
+        <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+        <app-main />
+      </div>
+
     </div>
     <service-map />
   </div>
@@ -22,6 +26,7 @@ import {
   TagsView,
   ServiceMap
 } from './components'
+import Breadcrumb from '@/components/Breadcrumb'
 // import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
 
@@ -32,7 +37,8 @@ export default {
     Navbar,
     Sidebar,
     TagsView,
-    ServiceMap
+    ServiceMap,
+    Breadcrumb
   },
   // mixins: [ResizeMixin],
   computed: {
@@ -104,4 +110,5 @@ export default {
 .mobile .fixed-header {
   width: 100%;
 }
+
 </style>

@@ -35,9 +35,13 @@ export default {
       // only show routes with meta.title
       let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
       const first = matched[0]
+      // 修改 iframe 子路由 title
+      if (this.isIframe(first)) {
+        first.meta.title = this.$route.query ? this.$route.query.name : 'iframe'
+      }
 
       if (!this.isDashboard(first)) {
-        matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
+        matched = [{ path: '/dashboard', meta: { title: '首页' }}].concat(matched)
       }
 
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
@@ -48,6 +52,10 @@ export default {
         return false
       }
       return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
+    },
+    isIframe(route) {
+      const name = route.name
+      return name === 'Iframe'
     },
     pathCompile(path) {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
@@ -69,10 +77,12 @@ export default {
 
 <style lang="scss" scoped>
 .app-breadcrumb.el-breadcrumb {
-  display: inline-block;
+  box-sizing: border-box;
   font-size: 14px;
-  line-height: 60px;
-  margin-left: 8px;
+  height: 40px;
+  line-height: 39px;
+  padding-left: 10px;
+  border-bottom: 1px solid #dedede;
 
   .no-redirect {
     color: #97a8be;

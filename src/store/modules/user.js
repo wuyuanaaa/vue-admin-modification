@@ -141,7 +141,6 @@ const actions = {
   setUnloggedRoles({ commit, rootGetters }) {
     return new Promise(resolve => {
       const unloggedRole = rootGetters.unloggedRole
-
       commit('SET_ROLES', [unloggedRole])
       resolve({
         roles: [unloggedRole]

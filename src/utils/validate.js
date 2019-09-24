@@ -85,3 +85,17 @@ export function isArray(arg) {
   }
   return Array.isArray(arg)
 }
+
+/**
+ * 参数对象转换为url参照字符串
+ * @param {object} object
+ * @returns {string}
+ */
+
+export function objToform(obj) {
+  const result = []
+  Object.keys(obj).forEach(ele => {
+    result.push(`${ele}=${obj[ele]}`)
+  })
+  return result.join('&')
+}
